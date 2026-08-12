@@ -47,12 +47,32 @@ export function AuthProvider({ children }) {
       payload
     );
 
+    // NEW:
+    // Registration now requires email verification.
+    // Token will be created after OTP verification.
+    return data;
+  }
+
+  // NEW FEATURE:
+  // Verify email using the 6-digit OTP
+  async function verifyEmail(email, code) {
+    const { data } = await api.post(
+      "/auth/verify-email",
+      {
+        email,
+        code,
+      }
+    );
+
+    // Save token after successful verification
     localStorage.setItem(
       "library_token",
       data.token
     );
 
     setUser(data.user);
+
+    return data;
   }
 
   function logout() {
@@ -67,6 +87,7 @@ export function AuthProvider({ children }) {
         loading,
         login,
         register,
+        verifyEmail,
         logout,
       }}
     >
