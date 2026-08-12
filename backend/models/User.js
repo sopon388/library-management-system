@@ -7,7 +7,13 @@ const userSchema = new mongoose.Schema({
   phone: { type: String, trim: true, default: "" },
   address: { type: String, trim: true, default: "" },
   role: { type: String, enum: ["admin", "librarian", "member"], default: "member" },
-  status: { type: String, enum: ["active", "suspended"], default: "active" }
+  status: { type: String, enum: ["active", "suspended"], default: "active" },
+
+  // NEW: Email verification fields
+  isEmailVerified: { type: Boolean, default: false },
+  emailVerificationCode: { type: String, default: null },
+  emailVerificationExpires: { type: Date, default: null }
+
 }, { timestamps: true });
 
 module.exports = mongoose.model("User", userSchema);
